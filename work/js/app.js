@@ -8,12 +8,23 @@ let weather = document.getElementById("get-weather");
 //ユーザーがクリックした際に、指定された都市の天気情報を取得する処理を実行
 weather.addEventListener("click", () => {
   const getCity = document.getElementById("city-select").value;
+
+  //都市が選択されていない時にアラートを表示する
+  // if (!getCity) {
+  //   alert("都市を選択してください");
+  //   return;
+  // }
+
   let url = `https://www.jma.go.jp/bosai/forecast/data/forecast/${getCity}.json`;
 
   //fetchを使ってAPIにリクエストを送る→取得した情報をJavaScriptで利用.
   //then()を使って、データの受信とその後の処理を順に行う
   fetch(url) //データを送る
     .then(function (response) {
+      if (!response.ok) {
+        // HTTPエラーレスポンスの場合はエラーを発生させる
+        throw new Error("Network response was not ok " + response.statusText);
+      }
       return response.json();
     })
     .then(function (weather) {
@@ -44,5 +55,10 @@ weather.addEventListener("click", () => {
         area.weathers[1];
       document.getElementById("dayAfterTomorrow").lastElementChild.textContent =
         area.weathers[2];
+    })
+    .catch(function (error) {
+      // エラーメッセージをアラートで表示
+      alert("エラー:" + error.message);
+      console.error("エラー詳細:", error); // コンソールにもエラーを出力
     });
 });
