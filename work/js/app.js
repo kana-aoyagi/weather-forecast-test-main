@@ -58,7 +58,7 @@ weather.addEventListener("click", () => {
     })
     .catch(function (error) {
       // エラーメッセージをアラートで表示
-      alert("エラー:" + error.message);
+      alert("都市が選択されていません");
       console.error("エラー詳細:", error); // コンソールにもエラーを出力
     });
 });
